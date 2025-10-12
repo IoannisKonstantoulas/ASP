@@ -1,0 +1,22 @@
+atoms = [
+    "man(a).",            # 0
+    "not_man(a).",        # 1
+    "woman(a).",          # 2
+    "not_woman(a).",      # 3
+    "man(b).",            # 4
+    "not_man(b).",        # 5
+    "woman(b).",          # 6
+    "not_woman(b).",      # 7
+    "parent(a,b).",       # 8
+    "not_parent(a,b).",   # 9
+    "parent(b,a).",       # 10
+    "not_parent(b,a).",   # 11
+    "father(a,b).",       # 12
+    "not_father(a,b).",   # 13
+    "father(b,a).",       # 14
+    "not_father(b,a).",   # 15
+    "mother(a,b).",       # 16
+    "not_mother(a,b).",   # 17
+    "mother(b,a).",       # 18
+    "not_mother(b,a)."    # 19
+]
