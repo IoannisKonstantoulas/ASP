@@ -3,7 +3,7 @@ from textwrap import dedent
 import clingo
 
 
-def run(string):
+def run(string, log_level):
     control = clingo.Control()
 
     control.add("base", [], dedent(string))
@@ -15,4 +15,6 @@ def run(string):
     with control.solve(yield_=True) as handle:
         # loop over all models and print them
         for model in handle:
-            print(model)
+            if log_level == "DEBUG":
+                print(model)
+            return(str(model))
