@@ -2,7 +2,7 @@ import pandas as pd
 
 from neural_logic_entropy.model.model_definition import OneHiddenDense
 
-file_path = '../data/dataset.csv'
+file_path = '../data/dataset_satisfiable_only.csv'
 
 model = OneHiddenDense(20)
 df = pd.read_csv(file_path)

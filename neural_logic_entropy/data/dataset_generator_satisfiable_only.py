@@ -8,7 +8,7 @@ from neural_logic_entropy.util.atom_mapper import make_atom_string
 from neural_logic_entropy.util.excel_header import excel_header
 from neural_logic_entropy.util.loop_utils import time_print_loop
 
-filename = "dataset.csv"
+filename = "dataset_satisfiable_only.csv"
 log_level = "INFO"
 start_time = time.time()
 
@@ -28,5 +28,4 @@ with open(filename, "w", newline="") as f:
                 for j in range(20):
                     if atoms[j] == output_part:
                         output_set[j] = 1
-
-        writer.writerow(input_set + output_set)
+            writer.writerow(input_set + output_set)
