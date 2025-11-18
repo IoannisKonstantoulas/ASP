@@ -1,9 +1,9 @@
-import tensorflow as tf
 from tensorflow.keras import layers, Model
 
-def OneHiddenDense(size=20):
-    input_set = layers.Input(shape=(size,))
-    input_set = layers.Dense(size, activation='relu')(input_set)
-    output_set = layers.Dense(size, activation='linear')(input_set)
 
-    return Model(input_set, output_set, name=('OneHiddenDense' + str(size) +'Size'))
+def OneHiddenDense(input_size=20, output_size=21):
+    input_set = layers.Input(shape=(input_size,))
+    temp_layer = layers.Dense(output_size, activation='relu')(input_set)
+    output_set = layers.Dense(output_size, activation='sigmoid')(temp_layer)
+
+    return Model(input_set, output_set, name=('OneHiddenDense' + str(input_size) + 'InputSize' + str(output_size) + 'OutputSize'))

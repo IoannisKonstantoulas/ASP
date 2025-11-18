@@ -1,21 +1,25 @@
 import pandas as pd
+import tensorflow as tf
 
 from neural_logic_entropy.model.model_definition import OneHiddenDense
 
-file_path = '../data/dataset_satisfiable_only.csv'
+file_path = '../data/dataset_satisfiable_and_unsatisfiable.csv'
 
-model = OneHiddenDense(20)
+model = OneHiddenDense(20, 21)
 df = pd.read_csv(file_path)
 
-input_data = df.iloc[:, 0:20].values
-output_data = df.iloc[:, 20:40].values
+data = df.values
+
+input_data = data[:, 0:20]
+output_data = data[:, 20:41]
+mask = data[:, 41:62]
 
 model.compile(
     optimizer='adam',
-    loss='mae',
-    metrics=['accuracy', 'mae']
+    loss='binary_crossentropy',
+    metrics=['accuracy', 'binary_crossentropy']
 )
 
-model.fit(input_data, output_data, epochs=100, batch_size=32, validation_split=0.1)
+model.fit(input_data, output_data, sample_weight=mask, epochs=20, batch_size=1, validation_split=0.1)
 
 model.save('first_model.keras')
