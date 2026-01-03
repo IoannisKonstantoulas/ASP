@@ -3,7 +3,7 @@ from textwrap import dedent
 import clingo
 
 
-def run(string, log_level):
+def run(string, log_level="DEBUG"):
     control = clingo.Control()
 
     control.add("base", [], dedent(string))

@@ -4,43 +4,51 @@ asp_program =  """\
 person(a).
 person(b).
 
-not man(X) :- woman(X), person(X).
+:- man(X), not_man(X).
+:- woman(X), not_woman(X).
+:- parent(X,Y), not_parent(X,Y).
+:- father(X,Y), not_father(X,Y).
+:- mother(X,Y), not_mother(X,Y).
+
+:- woman(X), man(X), person(X).
+:- not_woman(X), not_man(X), person(X).
+
 not_man(X) :- woman(X), person(X).
-not woman(X) :- man(X), person(X).
 not_woman(X) :- man(X), person(X).
 man(X) :- not_woman(X), person(X).
 woman(X) :- not_man(X), person(X).
 
-not father(Y,X) :- not_man(X), person(X), person(Y), X!=Y.
-not_father(Y,X) :- not_man(X), person(X), person(Y), X!=Y.
-not mother(Y,X) :- not_woman(X), person(X), person(Y), X!=Y.
-not_mother(Y,X) :- not_woman(X), person(X), person(Y), X!=Y.
+:- father(X,Y), not_man(X), person(X), person(Y), X!=Y.
+not_father(X,Y) :- not_man(X), person(X), person(Y), X!=Y.
+:- mother(X,Y), not_woman(X), person(X), person(Y), X!=Y.
+not_mother(X,Y) :- not_woman(X), person(X), person(Y), X!=Y.
 
-man(X) :- father(Y,X), person(X), person(Y).
-woman(X) :- mother(Y,X), person(X), person(Y).
+man(X) :- father(X,Y), person(X), person(Y).
+woman(X) :- mother(X,Y), person(X), person(Y).
 
-not_parent(Y,X) :- not_father(Y,X), not_mother(Y,X), person(X), person(Y).
+:- parent(X,Y), not_father(X,Y), not_mother(X,Y), person(X), person(Y).
+not_parent(X,Y) :- not_father(X,Y), not_mother(X,Y), person(X), person(Y).
 
-not not_parent(Y,X) :- parent(Y,X), person(X), person(Y).
-not parent(Y,X) :- not_parent(Y,X), person(X), person(Y).
+not_mother(X,Y) :- not_parent(X,Y),  person(X), person(Y).
+not_father(X,Y) :- not_parent(X,Y),  person(X), person(Y).
 
-parent(Y,X) :- father(Y,X), person(X), person(Y).
-parent(Y,X) :- mother(Y,X), person(X), person(Y).
+:- parent(X,Y), not_parent(X,Y), person(X), person(Y).
 
-not father(X,Y) :- father(Y,X), person(X), person(Y), X!=Y.
-not_father(X,Y) :- father(Y,X), person(X), person(Y), X!=Y.
-not father(X,Y) :- mother(Y,X), person(X), person(Y), X!=Y.
-not_father(X,Y) :- mother(Y,X), person(X), person(Y), X!=Y.
-not mother(X,Y) :- father(Y,X), person(X), person(Y), X!=Y.
-not_mother(X,Y) :- father(Y,X), person(X), person(Y), X!=Y.
-not mother(X,Y) :- mother(Y,X), person(X), person(Y), X!=Y.
-not_mother(X,Y) :- mother(Y,X), person(X), person(Y), X!=Y.
+parent(X,Y) :- father(X,Y), person(X), person(Y).
+parent(X,Y) :- mother(X,Y), person(X), person(Y).
 
-not parent(X,Y) :- parent(Y,X), person(X), person(Y), X!=Y.
+:- father(X,Y), parent(Y,X), person(X), person(Y), X!=Y.
+not_father(X,Y) :- parent(Y,X), person(X), person(Y), X!=Y.
+:- mother(X,Y), parent(Y,X), person(X), person(Y), X!=Y.
+not_mother(X,Y) :- parent(Y,X), person(X), person(Y), X!=Y.
+:- parent(X,Y), parent(Y,X), person(X), person(Y), X!=Y.
 not_parent(X,Y) :- parent(Y,X), person(X), person(Y), X!=Y.
 
-father(Y,X) :- parent(Y,X), man(X), person(X), person(Y), X!=Y.
-mother(Y,X) :- parent(Y,X), woman(X), person(X), person(Y), X!=Y.
+father(X,Y) :- parent(X,Y), man(X), person(X), person(Y), X!=Y.
+mother(X,Y) :- parent(X,Y), woman(X), person(X), person(Y), X!=Y.
+
+father(X,Y) :- parent(X,Y), not_mother(X,Y), person(X), person(Y), X!=Y.
+mother(X,Y) :- parent(X,Y), not_father(X,Y), person(X), person(Y), X!=Y.
 
 #show man/1.
 #show woman/1.
@@ -56,9 +64,9 @@ mother(Y,X) :- parent(Y,X), woman(X), person(X), person(Y), X!=Y.
 """
 
 test_string = """\
-man(a).
-woman(1).
+woman(b).
+not_father(a,b).
 parent(a,b).
 
 """
-# run_clingo.run(test_string + asp_program)
+# run_clingo.run(test_string + asp_program, log_level="DEBUG")
